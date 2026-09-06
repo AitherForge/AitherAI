@@ -1,131 +1,59 @@
 # Aither AI 🤖
 
-Aither AI is a browser-first AI chat app designed to feel fast and native on phones, tablets, desktops, and the Electron desktop app. **Users do not enter an API key, install Ollama, or configure a cloud AI provider.** The supported web AI engine runs directly on the device with WebGPU.
+Aither AI is a native-feeling AI chat app for phones, tablets, desktops, and the Electron desktop app.
 
-## Version 4.2.0
+## Version 4.3.0
 
-### ✨ Next-generation chat foundation
-- Keeps the no-API-key, browser-first architecture.
-- Keeps GitHub Pages compatibility.
-- Keeps the Electron desktop target.
-- Keeps local conversation history on the device.
-- Keeps the existing Aither Account integration.
-- Keeps mobile sidebar and safe-area support.
+### 🤖 AIClient2API
+- Uses the OpenAI-compatible AIClient2API `/v1/chat/completions` interface.
+- Uses AIClient2API `/v1/models` to discover available models.
+- Default model is `gemini-2.5-flash`, with model selection in Settings.
+- Supports Bearer authentication through the Aither AI Settings panel.
+- Keeps conversation history locally on the device.
+- Removes the previous WebLLM/WebGPU dependency from the web chat path.
 
-### 🤖 Browser AI
-- Uses WebLLM with `Llama-3.2-1B-Instruct-q4f16_1-MLC`.
-- Runs inference directly on the device through WebGPU.
-- No user API key is requested or stored.
-- No Hugging Face, Ollama, or OpenAI API dependency.
-- Model loading continues to show visible progress before chat becomes available.
+AIClient2API documents the OpenAI-compatible chat endpoint and authentication options. The API expects a Bearer token, `x-api-key`, or another supported authentication method when authentication is enabled.
 
-### 📱 Mobile-first behavior
-- Touch-friendly controls.
-- Slide-in sidebar with tap-outside close behavior.
-- Responsive settings sheet.
-- iPhone safe-area support.
-- Responsive model-download panel.
-- Reduced-motion support.
-
-### 🖥️ Desktop app
-- Electron desktop app in `desktop/`.
-- Windows NSIS installer target.
-- macOS DMG target.
-- Linux AppImage target.
-- Secure Electron context isolation and sandboxing.
-- Desktop app keeps the browser-based, no-API-key architecture.
-
-### ⚙️ Settings
+## Settings
 - Aither Account integration.
+- AI model selection.
+- Local API-key storage for the configured AIClient2API endpoint.
 - Force Update.
 - Clear Chats.
-- Browser AI status.
-- Current version display.
 
-## Build the desktop app
-
-```bash
-cd desktop
-npm install
-npm start
-```
-
-To build installers:
-
-```bash
-npm run build
-```
-
-Electron Builder creates platform-specific output in `desktop/dist/`.
-
-## 🔐 No API key
-
-Aither AI does **not** ask users for an API key. The model runs locally in the browser or desktop app using WebGPU.
-
-## 🧠 How it works
+## How it works
 
 ```text
-Aither AI Web / Desktop
-          │
-          ▼
-       WebLLM
-          │
-          ▼
-       WebGPU
-          │
-          ▼
- Llama 3.2 1B model
-          │
-          ▼
-    User's device
+Aither AI
+   │
+   ▼
+AIClient2API
+   │
+   ▼
+Configured AI provider/model
+   │
+   ▼
+Aither AI response
 ```
 
-The model is downloaded the first time it is needed. Aither AI displays download progress while it loads. The browser or desktop app may cache the model for later use.
+The web app uses the AIClient2API OpenAI-compatible API. The API base is configured in `aither-api.js` and currently points at `https://aiproxy.justlikemaki.vip/v1`.
 
-## 🌐 GitHub Pages
+## Security note
 
-The web version is designed to work as a static GitHub Pages site. Normal AI chat does not require `/api/chat` or a backend server.
+For production, do not commit a private API key into the GitHub repository. Aither AI stores a user-entered key in that user's browser only. For a public deployment, the safer architecture is to put AIClient2API behind an Aither-controlled backend/proxy so the upstream credential is never exposed to the browser.
 
-## 🌍 Browser/Desktop support
+## GitHub Pages
 
-WebGPU is required for the browser AI engine. Use a recent browser or desktop GPU/driver with WebGPU support. Older devices may not have enough GPU memory for the selected model.
+The UI remains compatible with static GitHub Pages hosting, provided the configured AIClient2API endpoint permits browser CORS requests.
 
-## 📖 Changelog
+## Desktop
 
-**4.2.0 — Chat foundation refresh**
-- Refreshed the project documentation around the current browser-first architecture.
-- Preserved the no-API-key design.
-- Preserved GitHub Pages and Electron targets.
-- Documented the current mobile, account, settings, and WebGPU architecture.
+The existing Electron desktop target can use the same API client. Build it from `desktop/` with the existing project commands.
 
-**4.1.1 — Mobile & Polish**
-- Fixed mobile sidebar state mismatch.
-- Fixed mobile backdrop behavior.
-- Improved responsive layouts.
-- Added accessibility labels.
-- Updated README.
+## Changelog
 
-**4.1.0 — Desktop App**
-- Added Electron desktop app.
-- Added Windows NSIS, macOS DMG, and Linux AppImage targets.
-- Added secure preload bridge.
-- Added sandboxed/context-isolated Electron configuration.
-- Added desktop build instructions.
-
-**4.0.1 — Model Download Progress**
-- Added download percentage.
-- Added visual download progress bar.
-- Added estimated time remaining.
-- Added loading status text.
-- Added completion state.
-
-**4.0.0 — Browser AI Rebuild**
-- Rebuilt Aither AI around in-browser WebLLM inference.
-- Removed the `/api/chat` requirement from the frontend.
-- Removed the user API-key flow.
-- Added WebGPU model initialization.
-- Added model download/loading progress.
-- Added WebGPU compatibility handling.
-- Kept local conversation history.
-- Kept mobile sidebar and Settings.
-- Kept Force Update.
+**4.3.0 — AIClient2API integration**
+- Replaced the browser WebLLM chat engine with AIClient2API.
+- Added model discovery.
+- Added model selection and API-key settings.
+- Kept local chats, Aither Account, mobile layout, and Force Update.
