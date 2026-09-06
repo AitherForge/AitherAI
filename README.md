@@ -1,11 +1,19 @@
 # Aither AI 🤖
 
-Aither AI is a real browser-based AI chat app. **Users do not enter an API key, install Ollama, or configure a cloud AI provider.** The AI model runs directly in the browser with WebGPU.
+Aither AI is a browser-first AI chat app designed to feel fast and native on phones, tablets, desktops, and the Electron desktop app. **Users do not enter an API key, install Ollama, or configure a cloud AI provider.** The supported web AI engine runs directly on the device with WebGPU.
 
-## Version 4.1.0
+## Version 4.1.1
+
+### ✨ What's better
+- Fixed the mobile sidebar open/close behavior.
+- Improved the mobile backdrop so tapping outside the sidebar closes it correctly.
+- Improved iPhone and small-screen layout behavior.
+- Added better accessibility labels to important controls.
+- Kept the app static-host friendly for GitHub Pages.
+- Kept the no-API-key architecture.
 
 ### 🖥️ Desktop app
-- Added an Electron desktop app in `desktop/`
+- Electron desktop app in `desktop/`
 - Windows NSIS installer target
 - macOS DMG target
 - Linux AppImage target
@@ -13,16 +21,15 @@ Aither AI is a real browser-based AI chat app. **Users do not enter an API key, 
 - Desktop app keeps the browser-based, no-API-key architecture
 
 ### 📥 AI model download progress
-- Shows live download percentage
-- Shows a visual progress bar
-- Shows current loading status
-- Estimates time remaining while enough progress data is available
-- Shows completion state
+- Live download percentage
+- Visual progress bar
+- Current loading status
+- Completion state
 - Chat stays disabled until the AI is ready
 
 ### 🤖 Browser AI
 - Uses WebLLM with `Llama-3.2-1B-Instruct-q4f16_1-MLC`
-- Runs AI inference directly on the device through WebGPU
+- Runs inference directly on the device through WebGPU
 - No API key is requested or stored
 - No Hugging Face, Ollama, or OpenAI API dependency
 
@@ -44,16 +51,19 @@ Electron Builder creates platform-specific output in `desktop/dist/`.
 
 ## 📱 Mobile
 
-- Mobile sidebar
+- Mobile sidebar with working slide-in/slide-out behavior
 - Dedicated sidebar close button
 - Tap-outside-to-close backdrop
 - Touch-friendly controls
 - Mobile-friendly Settings sheet
 - iPhone safe-area support
 - Responsive download panel
+- Small-screen layout tuning
+- Reduced-motion support
 
 ## ⚙️ Settings
 
+- Aither Account integration
 - Force Update
 - Clear Chats
 - Browser AI status
@@ -81,7 +91,7 @@ Aither AI Web / Desktop
     User's device
 ```
 
-The model is downloaded the first time it is needed. Aither AI displays the download percentage and an estimated time remaining while it loads. The browser or desktop app may cache the model for later use.
+The model is downloaded the first time it is needed. Aither AI displays download progress while it loads. The browser or desktop app may cache the model for later use.
 
 ## 🌐 GitHub Pages
 
@@ -93,13 +103,19 @@ WebGPU is required for the browser AI engine. Use a recent browser or desktop GP
 
 ## 📖 Changelog
 
+**4.1.1 — Mobile & Polish**
+- Fixed mobile sidebar state mismatch
+- Fixed mobile backdrop behavior
+- Improved responsive layouts
+- Added accessibility labels
+- Updated README
+
 **4.1.0 — Desktop App**
 - Added Electron desktop app
 - Added Windows NSIS, macOS DMG, and Linux AppImage targets
 - Added secure preload bridge
 - Added sandboxed/context-isolated Electron configuration
 - Added desktop build instructions
-- Updated README
 
 **4.0.1 — Model Download Progress**
 - Added download percentage
@@ -107,9 +123,6 @@ WebGPU is required for the browser AI engine. Use a recent browser or desktop GP
 - Added estimated time remaining
 - Added loading status text
 - Added completion state
-- Keeps chat disabled until the AI is ready
-- Updated mobile download styling
-- Updated README
 
 **4.0.0 — Browser AI Rebuild**
 - Rebuilt Aither AI around in-browser WebLLM inference
@@ -121,4 +134,3 @@ WebGPU is required for the browser AI engine. Use a recent browser or desktop GP
 - Kept local conversation history
 - Kept mobile sidebar and Settings
 - Kept Force Update
-- Updated README
